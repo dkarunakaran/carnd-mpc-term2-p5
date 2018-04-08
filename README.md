@@ -41,6 +41,37 @@ Finally (N = 10, dt = .1) performs the best result.
 
 ## Polynomial Fitting and MPC Preprocessing
 
+The waypoints provided by the simulator are transformed to the car coordinate system.
+```
+// converting to vehicle coordinates
+for(int i=0;i<ptsx.size();i++){
+  double diffx = ptsx[i]-px;
+  double diffy = ptsy[i]-py;
+  ptsx[i] = diffx * cos(psi) + diffy * sin(psi);
+  ptsy[i] = diffy * cos(psi) - diffx * sin(psi);
+}
+
+Eigen::VectorXd ptsxV = Eigen::VectorXd::Map(ptsx.data(), ptsx.size());
+Eigen::VectorXd ptsyV = Eigen::VectorXd::Map(ptsy.data(), ptsy.size());
+```
+Then a 3rd-degree polynomial is fitted to the transformed waypoints. 
+
+```
+auto coeffs = polyfit(ptsxV, ptsyV, 3);
+```
+
+These polynomial coefficients are used to calculate the cte and epsi later on. 
+```
+double cte_l =  polyeval(coeffs, 0) + v * CppAD::sin(-atan(coeffs[1])) * dt;
+double epsi_l = -atan(coeffs[1])+psi_l;
+```
+
+They are used by the solver as well to create a reference trajectory.
+
+```
+ std::vector<double> r;
+ r = mpc.Solve(state, coeffs);
+```
 
 ## Model Predictive Control with Latency
 
