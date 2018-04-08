@@ -17,4 +17,11 @@ And the vehicle model equation is:
 
 <img src= "images/equation1.png">
 
+Actuators values calculated by the MPC controller were steer angle and throttle. All the states and coefficients of the polynomial drawn on center of the road were made input to the MPC solve function. This function gave throttle and steering value as the output. Actuator values were decided at each time step by MPC controller such that it minimizes the cost function defined.
+
+### Actuator constraints
+These are limiting parameters defined by the design of the vehicle and fundamental physics — e.g. a car never makes a hard 90° turn. This is called a nonholonomic model. In our case:
+
+* a — acceleration is in the range [-1, 1] = [full brake, full throttle]
+* delta — steering angle is in the range [-25°, 25°]
 
