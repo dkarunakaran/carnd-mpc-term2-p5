@@ -13,4 +13,8 @@ The MPC model is based on kinematic bicycle model defined by a state of six para
 * cte — cross-track error. The difference between the trajectory defined by the waypoints and the current vehicle position y in the coordinate space of the vehicle.
 * epsi (eψ) — orientation error.
 
+And the vehicle model equation is:
+
+<img src= "images/equation1.png">
+
 
