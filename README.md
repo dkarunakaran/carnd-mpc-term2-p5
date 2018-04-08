@@ -79,7 +79,7 @@ In a real car, an actuation command won't execute instantly - there will be a de
 
 This is a problem called "latency", and it's a difficult challenge for some controllers - like a PID controller - to overcome. But a Model Predictive Controller can adapt quite well because we can model this latency in the system.
 
-Latency of 0.1 seconds was added to the system. To take its effect vehicle position 0.1 seconds in future was predicted using state model equations. This is because our model will give actuations to the vehicle after 0.1 seconds, so our initial state should be after 0.1 seconds to get the correct optimum control values.
+Latency of 0.1 seconds was added to the system so that our model will give actuations to the vehicle after 0.1 seconds, so our initial state should be after 0.1 seconds to get the correct optimum control values.
 
 
 
