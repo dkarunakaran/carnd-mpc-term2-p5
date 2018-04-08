@@ -95,6 +95,7 @@ int main() {
 
           double str = j[1]["steering_angle"];
           double throttle = j[1]["throttle"];
+          
           // converting to vehicle coordinates
           for(int i=0;i<ptsx.size();i++){
             double diffx = ptsx[i]-px;
@@ -108,11 +109,13 @@ int main() {
 
           auto coeffs = polyfit(ptsxV, ptsyV, 3);
           Eigen::VectorXd state(6);
+          
+          const double Lf = 2.67;
           //latency=0.1s
           double dt = 0.1;
           double px_l =v*dt;
           double py_l =0.0;
-          double psi_l = -v * str / 2.67 * dt;
+          double psi_l = -v * str / Lf * dt;
           double v_l = v+throttle*dt;
           double cte_l =  polyeval(coeffs, 0) + v * CppAD::sin(-atan(coeffs[1])) * dt;
           double epsi_l = -atan(coeffs[1])+psi_l;
@@ -125,7 +128,7 @@ int main() {
           // NOTE: Remember to divide by deg2rad(25) before you send the steering value back.
           // Otherwise the values will be in between [-deg2rad(25), deg2rad(25] instead of [-1, 1].
          
-          steer_value = r[0]/ (deg2rad(25)*2.67);
+          steer_value = r[0]/ (deg2rad(25)*Lf);
           throttle_value = r[1]*(1-fabs(steer_value))+0.1;
 
           json msgJson;
