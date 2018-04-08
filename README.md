@@ -22,6 +22,25 @@ Actuators values calculated by the MPC controller were steer angle and throttle.
 ### Actuator constraints
 These are limiting parameters defined by the design of the vehicle and fundamental physics — e.g. a car never makes a hard 90° turn. This is called a nonholonomic model. In our case:
 
-* a — acceleration is in the range [-1, 1] = [full brake, full throttle]
-* delta — steering angle is in the range [-25°, 25°]
+* a - acceleration is in the range [-1, 1] = [full brake, full throttle]
+* delta - steering angle is in the range [-25°, 25°]
+
+## Timestep Length and Elapsed Duration (N & dt)
+
+The prediction horizon is the duration over which future predictions are made. This is referred as T.
+
+T is the product of two other variables, N and dt.
+
+N is the number of timesteps in the horizon. dt is how much time elapses between actuations. 
+
+N, dt, and T are hyperparameters that need to be tuned for each model predictive controller we build. However, there are some general guidelines. T should be as large as possible, while dt should be as small as possible.
+
+I tried different combinations of N and dt, including (N=20, dt=0.05), (N=15, dt=0.05), (N=10, dt=0.05), (N=20, dt=0.1) and so on. With higher N value, if the vehicle "overshot" the reference trajectory, it would begin to oscillate wildly and drive off the track. With lower value of N, the vehicle may drive straight off the track.
+
+Finally (N = 10, dt = .1) performs the best result.
+
+## Polynomial Fitting and MPC Preprocessing
+
+
+
 
