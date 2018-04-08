@@ -42,5 +42,13 @@ Finally (N = 10, dt = .1) performs the best result.
 ## Polynomial Fitting and MPC Preprocessing
 
 
+## Model Predictive Control with Latency
+
+In a real car, an actuation command won't execute instantly - there will be a delay as the command propagates through the system. A realistic delay might be on the order of 100 milliseconds.
+
+This is a problem called "latency", and it's a difficult challenge for some controllers - like a PID controller - to overcome. But a Model Predictive Controller can adapt quite well because we can model this latency in the system.
+
+In order to deal with the latency, I set the initial states to be the states after .1. This allows the vehicle to look ahead and correct for where it will be in the future instead of where it is currently positioned.
+
 
 
